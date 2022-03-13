@@ -1,0 +1,71 @@
+{% extends 'FoodApp/base.html' %}
+{% load static %}
+{% block edit %}
+<div class="blogheads">
+    <h1>Edit Ingrident</h1>
+    <p><a href="#"> Home >> Customizable >> </a> <span>Edit Ingrident</span> </p>
+</div>
+<section>
+
+<section class="newbanner">
+
+<div class="newcardcontainer">
+    <div class="newcardcontent">
+        <h3>Edit Form</h3>
+        <form action="">
+            <div class="newformrow">
+                <select name="salt" id="">
+                    <option value="selectsalt">Select Salt quantity</option>
+                    <option value="20">20%</option>
+                    <option value="20">40%</option>
+                    <option value="20">70%</option>
+                    <option value="20">100%</option>
+                </select>
+                <select name="oliveoil" id="">
+                    <option value="selectoil">Select Oil quantity</option>
+                    <option value="20">20%</option>
+                    <option value="20">40%</option>
+                    <option value="20">70%</option>
+                    <option value="20">100%</option>
+                </select>
+            </div>
+            <div class="newformrow">
+                <select name="onion" id="">
+                    <option value="selectonion">Select Onion quantity</option>
+                    <option value="20">0</option>
+                    <option value="20">40%</option>
+                    <option value="20">70%</option>
+                    <option value="20">100%</option>
+                </select>
+                <select name="garlic" id="">
+                    <option value="selectgarlic">Select Garlic quantity</option>
+                    <option value="20">0</option>
+                    <option value="20">40%</option>
+                    <option value="20">70%</option>
+                    <option value="20">100%</option>
+                </select>
+            </div>
+            <div class="newformrow">
+                <select name="sauce" id="">
+                    <option value="selectsauce">Select Favoutite Sauce</option>
+                    <option value="tomato">Tomato Sauce</option>
+                    <option value="chilli">Chilli Sauce</option>
+                    <option value="soya">Soya Sauce%</option>
+                </select>
+                <select name="blackpepper" id="">
+                    <option value="selectblackpepper">SelectBlack Pepper Quantity</option>
+                    <option value="20">0</option>
+                    <option value="20">40%</option>
+                    <option value="20">70%</option>
+                    <option value="20">100%</option>
+                </select>
+            </div>
+                <div class="newformrow">
+                <input type="button" value="Order Now">
+                </div>
+            
+        </form>
+    </div>
+</div></section>
+
+{% endblock %}

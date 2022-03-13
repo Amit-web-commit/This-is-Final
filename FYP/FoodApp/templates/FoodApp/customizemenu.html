@@ -1,0 +1,67 @@
+{% extends 'FoodApp/base.html' %}
+{% load static %}
+{% block CustomizeMenu %}
+    
+    <div class="blogheads">
+        <h1>Customize Menu</h1>
+        <p><a href="#"> Home >></a> <span>CustomizeMenu</span> </p>
+    </div>
+    <section class="menuCustomize">
+   <div class="customizesec">
+    <h3 id="title">
+        Customize Form available
+    </h3>
+    <h5 id="detailcustomite">
+        Please enter the detail of food you want to make an order
+    </h5>
+   </div>
+   <form action="" id="customForm">
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" class="formControl" placeholder="Enter your name" required>
+        </div>
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="text" class="formControl" placeholder="Enter your email" required>
+        </div>
+        <div class="form-group">
+            <h6 id="quest">
+                Cuisine Type you want to order?
+            </h6>
+            <select name="role" id="dropdown" required>
+                <option value="" disabled selected>
+                    Select your food type
+                </option>
+                <option value="indian">Indian</option>
+                <option value="chinise">Chinise</option>
+                <option value="italian">Italian</option>
+                <option value="continental">Continental</option>
+                <option value="other">Other</option>
+
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="cuisine">Cuisine </label>
+            <input type="text" class="formControl" placeholder="place Your Cuisine Name" required>
+        </div>
+        <div class="form-group">
+            <label for="inc1">Ingredients 1: </label>
+            <input type="text" class="formControl" placeholder="bread/floor/yeast" required>
+        </div>
+        <div class="form-group">
+            <label for="inc2">Ingredients 2: </label>
+            <input type="text" class="formControl" placeholder="mushroom/cheese/onion" required>
+        </div>
+        <div class="form-group">
+            <label for="inc3">Ingredients 3: <span class="clue">(optional)</span></label>
+            <input type="text" class="formControl" placeholder="mushroom/cheese/onion" required>
+        </div>
+        <div class="form-group">
+            <h6 id="quest">short recipe description </h6>
+            <textarea name="" id=""placeholder="Enter your detail"></textarea>
+        </div>
+        <input type="submit" value="Order"  class="mb-3 mt-4 mx-1">
+   </form>
+</section>
+
+{% endblock %}

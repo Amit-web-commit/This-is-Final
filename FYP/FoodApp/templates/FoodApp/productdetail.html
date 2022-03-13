@@ -1,0 +1,271 @@
+{% extends 'FoodApp/base.html' %}
+{% load static %}
+{% block productdetail %}
+    <div class="bloghead">
+        <h1>Our Products</h1>
+        <p><a href="#"> Home >></a> <span>products</span> </p>
+    </div>
+  <section class="container my-4 pt-4">
+    <div class="row mt-4">
+        <div class="col-lg-5 col-md-12 col-12">
+            <img class="img-fluid " src="{{productself.localProductimage.url}}" alt="">
+    </div>
+    
+
+    <div class="col-lg-6 col-md-12 col-12 mt-4 ">
+    <h6>Home/{{productself.name}}</h6>
+    <h4 class="py-2">{{productself.name}}</h4>
+    <h4>Rs.{{productself.price}}</h4>
+    <button class="btn btn-outline-success">Add to Cart</button><br>
+        
+    <a href="{% url 'FoodApp:product'%}"><button onclick="window.location.href='products.html';" class="btn btn-outline-secondary mt-3">Back to Product</button></a>
+    </div>
+    </div>
+  </section>
+  <section class="comment-box">
+    <h5>Review</h5>
+    <div class="comment-container">
+        <div class="commetPost">
+            <div class="text">Thanks for the Feedback.</div>
+            <div class="edit">EDIT</div>
+        </div>
+        <!-- <form action=""> -->
+        <div class="star-widget">
+            <input type="radio" name="rate" id="rate5">
+            <label for="rate5" class="fas fa-star"></label>
+            <input type="radio" name="rate" id="rate4">
+            <label for="rate4" class="fas fa-star"></label>
+            <input type="radio" name="rate" id="rate3">
+            <label for="rate3" class="fas fa-star"></label>
+            <input type="radio" name="rate" id="rate2">
+            <label for="rate2" class="fas fa-star"></label>
+            <input type="radio" name="rate" id="rate1">
+            <label for="rate1" class="fas fa-star"></label>
+           <form action="#" >
+           <header></header>
+          <div class="textarea">
+              <textarea name="" id="" cols="30" placeholder="Your Comments..." ></textarea>
+          </div>
+          <div class="boton">
+              <button class="mybtn" type="submit">Post</button>
+          </div>
+       </form>
+    </div>
+<!-- </form> -->
+  </div>
+
+</section>
+<div class="row mx-3">
+    <div class="col-12 col-sm-3 d-b">
+        {% if messages %}
+        <!-- <ul class="messages"> -->
+            {% for message in messages %}
+            <!-- <li style="list-style: none; color: brown;">{% if message.tags %} {% endif %}{{ message }}</li> -->
+            <div class="alert alert-{{message.tags}}" role="alert">
+                {{message}}
+            </div>
+    {% endfor %}
+</ul>
+{% endif %}
+        <!-- <form action="" method="post" >
+            {% csrf_token %} -->
+          <!-- <form action="" class="reviewform" method="get"> 
+           
+              {% for prod in productselfs %}
+             <input type="hidden" name="prod_id" id="prod_id" value="{{prod.id}}"/>
+             {% endfor %} -->
+             <form action="{% url 'FoodApp:submit_review' productself.id %}" method="post">
+                 {% csrf_token %}
+                 <!-- END -->
+            <h2> Your Review</h2>
+            <div>
+                <label for="">Rate this Product</label>
+                <br>
+                <div class="ratePro">
+                    <!-- <div class="rating">
+                        <span><i class="fas fa-star"></i></span>  
+                        <span><i class="fas fa-star"></i></span> 
+                        <span><i class="fas fa-star"></i></span> 
+                        <span><i class="fas fa-star"></i></span> 
+                        <span> <i class="fas fa-star-half-alt"></i></span> 
+                    </div> -->
+                    
+                    <input type="radio" name="rate" id="rating10" value="5" required /> <label for="rating10"    title="5"></label>
+                    <!-- <input type="radio" name="rating" id="rating9" value="4.5" required> <label for="rating9" title="4.5" class="half"></label> -->
+                    <input type="radio" name="rate" id="rating8" value="4" required> <label for="rating8" title="4"></label>
+                    <!-- <input type="radio" name="rating" id="rating7" value="3.5" required> <label for="rating7" title="3.5" class="half"></label> -->
+                    <input type="radio" name="rate" id="rating6" value="3" required> <label for="rating6" title="3"></label>
+                    <!-- <input type="radio" name="rating" id="rating5" value="2.5" required> <label for="rating5" title="2.5" class="half"></label> -->
+                    <input type="radio" name="rate" id="rating4" value="2" required> <label for="rating4" title="2"></label>
+                    <!-- <input type="radio" name="rating" id="rating3" value="1.5" required> <label for="rating3" title="1.5" class="half"></label> -->
+                    <input type="radio" name="rate" id="rating2" value="1" required> <label for="rating2" title="1"></label>
+                    <!-- <input type="radio" name="rating" id="rating1" value="0.5" required> <label for="rating3" title="0.5" class="half"></label> -->
+                </div>
+            </div>
+            
+            <div>
+                Review Title:
+                <input type="text" class="form-control" name="review">
+            </div>
+            <br>
+            Review:
+            <textarea name="comment"  class="form-control"  id="" rows="4"></textarea>
+            <br>
+            {% if user.is_authenticated %}
+            <input type="submit" value="Submit" class="btn btn-secondary col-md-4">
+            {% else %}
+            <p style="color: brown;">Must be logged in to review.<span><a href="{% url 'FoodApp:loginPage'%}">Login now</a></span></p>
+            {% endif %}
+        </form>
+    </div>
+</div>
+  <section id="tes">
+    <div class="tesHead">
+        
+        <h2>Comments</h2>
+    </div>
+    <div class="ts-box-container ">
+       {% for i in comment %}
+        <div class="test-box">
+
+        
+        <div class="box-top">
+
+          <div class="profilepic">
+              <div class="profilepicimg">
+                  <img src="{% static 'images/4.jpg' %}" alt="" srcset="">
+              </div>
+                  <div class="username">
+                      <strong>{{i.user}}</strong>
+                  </div>
+          </div>
+          
+          <div class="reviewall">
+              <i class="fas fa-star {% if i.rate > 4 %} {% endif %}"></i>
+              <i class="fas fa-star {% if i.rate > 3 %}  {% endif %}"></i>
+              <i class="fas fa-star {% if i.rate > 2 %}  {% endif %}"></i>
+              <i class="fas fa-star {% if i.rate > 1 %}  {% endif %}"></i>
+              <i class="fas fa-star {% if i.rate > 0 %}  {% endif %}"></i>
+          </div>
+          
+        </div>
+        <!-- <h5>{{i.review}}</h5> -->
+        <div class="comments">
+           {{i.comment}}
+        </div>
+      </div>
+      <hr style="width: 90%;">
+      
+      {% endfor %}
+    </div>
+
+</section>
+  <section class="section feature">
+    <div class="product-title">
+        <h1>Similar Products</h1>
+    </div>
+    <div class="product-center container">
+        <div class="productsavailable">
+            <div class="product-head">
+                <img src="{% static 'images/food-1.png' %}" alt="">
+                <!-- <ul class="icons">
+                    <span> <i class="fa fa-shopping-cart" aria-hidden="true"></i> </span>
+                    <span><i class="fa fa-search" aria-hidden="true"></i></span>
+                </ul> -->
+            </div>
+            <div class="productfooter">
+                <h4>Momos</h4>
+                <div class="rating">
+                    <span><i class="fas fa-star"></i></span>  
+                    <span><i class="fas fa-star"></i></span> 
+                    <span><i class="fas fa-star"></i></span> 
+                    <span><i class="fas fa-star"></i></span> 
+                    <span> <i class="fas fa-star-half-alt"></i></span> 
+                </div>
+                <h4 class="price">Rs.200</h4>
+            </div>
+        </div>
+        <div class="productsavailable">
+            <div class="product-head">
+                <img src="{% static 'images/Buff-Sukuti.jpg' %}" alt="">
+                <!-- <ul class="icons">
+                    <span> <i class="fa fa-shopping-cart" aria-hidden="true"></i> </span>
+                    <span><i class="fa fa-search" aria-hidden="true"></i></span>
+                </ul> -->
+            </div>
+            <div class="productfooter">
+                <h4>Buff Sukuti</h4>
+                <div class="rating">
+                    <span><i class="fas fa-star"></i></span>  
+                    <span><i class="fas fa-star"></i></span> 
+                    <span><i class="fas fa-star"></i></span> 
+                    <span><i class="fas fa-star"></i></span> 
+                    <span> <i class="fas fa-star-half-alt"></i></span> 
+                </div>
+                <h4 class="price">Rs.300</h4>
+            </div>
+        </div>
+        <div class="productsavailable">
+            <div class="product-head">
+                <img src="{% static 'images/tandoori_chicken.png' %}" alt="">
+                <!-- <ul class="icons">
+                    <span> <i class="fa fa-shopping-cart" aria-hidden="true"></i> </span>
+                    <span><i class="fa fa-search" aria-hidden="true"></i></span>
+                </ul> -->
+            </div>
+            <div class="productfooter">
+                <h4>tandoori chicken</h4>
+                <div class="rating">
+                    <span><i class="fas fa-star"></i></span>  
+                    <span><i class="fas fa-star"></i></span> 
+                    <span><i class="fas fa-star"></i></span> 
+                    <span><i class="fas fa-star"></i></span> 
+                    <span> <i class="fas fa-star-half-alt"></i></span> 
+                </div>
+                <h4 class="price">Rs.550</h4>
+            </div>
+        </div>
+        <div class="productsavailable">
+            <div class="product-head">
+                <img src="{% static 'images/chowmin1.jpg' %}" alt="">
+                <!-- <ul class="icons">
+                    <span> <i class="fa fa-shopping-cart" aria-hidden="true"></i> </span>
+                    <span><i class="fa fa-search" aria-hidden="true"></i></span>
+                </ul> -->
+            </div>
+            <div class="productfooter">
+                <h4>Chowmin</h4>
+                <div class="rating">
+                    <span><i class="fas fa-star"></i></span>  
+                    <span><i class="fas fa-star"></i></span> 
+                    <span><i class="fas fa-star"></i></span> 
+                    <span><i class="fas fa-star"></i></span> 
+                    <span> <i class="fas fa-star-half-alt"></i></span> 
+                </div>
+                <h4 class="price">Rs.200</h4>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<script>
+    var btnons = document.querySelector(".mybtn");
+    var posts = document.querySelector(".commetPost");
+    var widgets = document.querySelector(".star-widget");
+    var editBtnss = document.querySelector(".edit");
+    btnons.onclick = ()=>{
+        widgets.style.display = "none";
+        posts.style.display = "block";
+        editBtnss .onclick = () =>{
+            widgets.style.display = "block";
+            posts.style.display = "none";
+            
+        }
+        return false;
+        }
+    
+    </script>
+
+
+{% endblock %}

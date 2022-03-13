@@ -1,0 +1,163 @@
+{% load static %}
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- bootstrapCSS -->
+    
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <!-- bootstrapCSS -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <script src="https://kit.fontawesome.com/f2be6d220c.js" crossorigin="anonymous"></script>
+    <title>RoofTop Food Ordering and Table Reservation System</title>
+    <link
+  rel="stylesheet"
+  href="https://unpkg.com/swiper@7/swiper-bundle.min.css"
+/>
+<script type="text/jaavscript">
+var user = {{request.user}}
+</script>
+</head>
+<body>
+    <nav id="navbar">
+        <div id="logo">
+            <img src="https://www.thevendue.com/wp-content/uploads/2016/08/best-the-rooftop-in-charleston-logo.png" alt="RoofTop Hotel">
+        </div>
+        <ul class="nav">
+            <li class="home"><a href="{% url 'FoodApp:home' %}">Home</a></li>
+            <li class="product"><a href="{% url 'FoodApp:product' %}">Products</a></li>
+            <li class="Customizemenu"><a href="{% url 'FoodApp:customizemenu' %}">CustomizeMenu</a></li>
+            <li class="bookatable"><a href="{% url 'FoodApp:reserveTable' %}"> BookTable</a></li>
+            <li class="contact"><a href="{% url 'FoodApp:contact' %}">Contact</a></li>
+            
+        </ul>
+        <div class="icons">
+           
+            <div class="fa fa-bars" id="menu"></div>
+            <div class="fas fa-search" id="search"></div>
+            <a href="{% url 'FoodApp:carttotal' %}">
+            <div class="fas fa-shopping-cart" id="shopping" ></div></a>
+            <div class="fas fa-user" id="user"></div>
+        </div>
+        <form action="" class="formSearch">
+            <input type="search" id="searchitem" placeholder="Enter Food name..">
+            <label for="searchitem" class="fas fa-search" ></label>
+        </form>
+        <form action="" class="loginForm">
+            <h3>Login</h3>
+            
+            <input type="text" class="name"  placeholder="Username">
+            
+            <input type="password" class="name" placeholder="password">
+            <a href="" class="btn" >Login</a>
+            <a href="" class="btn mt-2" >Logout</a>
+            <a href="" class="recreate">Forget Account</a>
+            <a href="{% url 'FoodApp:signup' %}" class="recreate">Create New Acount</a>
+           </form>
+       
+
+    </nav>
+   
+    
+    {% block signup %}
+    {% endblock %}
+
+    {% block login %}
+    {% endblock %}
+    
+    {% block home %}
+	{% endblock %}
+
+    {% block products %}
+	{% endblock %}
+
+    {% block productdetail %}
+    {% endblock %}
+
+    {% block CustomizeMenu %}
+    {% endblock %}
+    
+    {% block reserveTable %}
+    {% endblock %}
+
+    {% block edit %}
+    {% endblock %}
+
+    {% block contact %}
+    {% endblock %}
+
+    {% block carttotal %}
+    {% endblock %}
+<section class="footer">
+    <div class="foot">
+        <div class="row">
+            <div class="footer-item">
+                <h3>our location</h3>
+                <p>ABC Street, Provience-2 <br>HelloTwin - 999******</p>
+            </div>
+            <div class="footer-item">
+                <h3>our opening hours</h3>
+                <p>Sunday to Friday <br>9:00 AM - 9:00 PM</p>
+            </div>
+            <div class="footer-item" id="cont">
+                <h3>Contact Us</h3>
+                <p>+977-988835538 <br>
+                rooftop@gmail.com</p>
+                <div class="sociallinks">
+                    <a href=""><i class="fa fa-facebook-square" aria-hidden="true"></i></a>
+                    <a href=""><i class="fa fa-instagram" aria-hidden="true"></i></a>
+                    <a href=""><i class="fa fa-twitter-square" aria-hidden="true"></i></a>
+                </div>
+            </div>
+        </div>
+         
+        <div class="row" style="margin-right: auto; margin-left: auto; padding-left: 45px; padding-right: 45px;">
+            <div class="copyright">
+                &copy; 2021 - Designed by rooftop
+            </div>
+        </div>
+    </div>
+<!-- </div> -->
+</section>
+    <!-- <div class="accounts">
+        <div class="container">
+            <div class="row">
+                <div class="sectionCols">
+                    <div class="containerForm">
+                        <div class="formname">
+                            <span>Login</span>
+                            <span>Register</span>
+                        </div>
+                       <form action="">
+                        <input type="text" placeholder="Username">
+                        <input type="password" placeholder="password">
+                        <button type="submit" class="btn">Login</button>
+                        <a href="">Forget</a>
+                       </form>
+                       <form action="">
+                        <input type="text" placeholder="Username">
+                        <input type="email" placeholder="Email">
+                        <input type="password" placeholder="password">
+                        <button type="submit" class="btn">Register</button>
+                       
+                       </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div> -->
+    <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
+    <!-- bootstrapJS -->
+   
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+     <!-- bootstrapJS -->
+     <script src="{% static 'js/cart.js'%}"></script>
+    <script src="{% static 'js/script.js'%}"></script>
+    <script src="{% static 'js/home.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+{% extends 'FoodApp/base.html' %}
+{% load static %}
+{% block login %}
+{% load socialaccount %}
+{% providers_media_js %}
+<section class="loginsec">
+    <div class="loginContainer">
+        <header>Login Form</header>
+        <form method="POST" action="" >
+            {% csrf_token %}
+            <div class="inputField">
+                <input type="text"  name="username" required>
+                <label >Enter your UserName</label>
+            </div>
+            <div class="inputField">
+                <input type="password" name="password" required>
+                <label>Enter Your Password</label>
+            </div>
+            <!-- <input type="submit" value="Login"> -->
+            <div class="loginbtnnew">
+                <div class="newfield">
+
+                </div>
+                <!-- <input type="submit" value="Login"> -->
+                <input type="submit"  class="buttonlogin"> 
+                <!-- <a href="" type="submit" class="buttonlogin">Login</a> -->
+            </div>
+        </form>
+        <div class="anotherwaybtn">OR Login with </div>
+        <div class="linkother">
+            <div class="googlelink">
+                <a href="{% provider_login_url 'google' %}">
+                <i class="fab fa-google-plus-square" ><span>Google</span></i></a>
+            </div>
+        </div>
+        {% for message in messages %}
+            <p id="messages" class="mt-2" style="color: black;">{{message}}</p>
+        {% endfor %}
+        <div class="forsignup">
+            Not a member?? <a href="{% url 'FoodApp:signup' %}">Sign up</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,480 @@
+{% extends 'FoodApp/base.html' %}
+{% load static %}
+{% block home %}
+    <section id="header">
+        <div class="container-fluid px-2 top-banner" >
+            <!-- <img src="{% static 'images/bg1.jpg' %}" alt="" class="container-fluid px-2 top-banner"> -->
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-5 col-lg-6">
+                        <h1 class=" ">Good Food</h1>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                         Ratione culpa vitae labore, cum esse optio et itaque nihil harum temporibus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex, obcaecati. Placeat tempore nam minus ab corporis explicabo debitis quo dignissimos? lorem</p> 
+                            
+                         <div class="mt-4">
+                             <button class="fas fa-shopping-cart btn btn-success"> Go to Products</button>
+                         </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+    <!-- PRODUCT SECTION -->
+  
+    <section class="products">
+        <div >
+            <h2 class="lg-title">Our Customized items </h2>
+            <p class="text-light">Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                 Ullam est ab rem sapiente sit consequuntur!
+            </p>
+            <div class="product-items">
+                <!-- SingleCustomizedProduct -->
+                {% for i in product %}
+                <div class="customizedproduct">
+                    <div class="product-content">
+                        <div class="product-img">
+                            <img src="{{i.productImage.url}}" alt="" class="newimg">
+                        </div>
+                        <div class="product-btns">
+                            <a href="{% url 'FoodApp:editIngredients' %}">
+                            <button type="button"  class="btn-customiz">Edit 
+                                <span><i class="fa fa-plus" aria-hidden="true"></i></span>
+                            </button>
+                        </a>
+                            <form action="{% url 'FoodApp:cart_add' i.id%}" method="post">
+                                {% csrf_token%}
+                            <button data-product="{{i.id}}" data-action="add" type="button" class="btn-cart add-btn update-cart" >Add to cart
+                                <span><i class="fa fa-cart-plus" aria-hidden="true"></i></span>
+                            </button></form>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-info-top">
+                            <h2 class="sm-title"> {{i.productName}}</h2>
+                            <div class="rating">
+                             <span><i class="fas fa-star"></i></span>  
+                             <span><i class="fas fa-star"></i></span> 
+                             <span><i class="fas fa-star"></i></span> 
+                             <span><i class="fas fa-star"></i></span> 
+                             <span> <i class="fas fa-star-half-alt"></i></span> 
+                           </div>
+                        </div>
+                        <h5 class="product-name">{{i.productDetail}}</h5>
+                        <h5 class="product-price">Rs.{{i.price}}</h5>
+                    </div>
+                    <div class="custominfo">
+                        <h4 class="sm-title">Customizable</h4>
+                    </div>
+                </div>
+                {% endfor %}
+                <!-- EndOFPRODUCT -->
+                <!-- <div class="customizedproduct">
+                    <div class="product-content">
+                        <div class="product-img">
+                            <img src="{% static 'images/pizza.png' %}" alt="" class="newimg">
+                        </div>
+                        <div class="product-btns">
+                            <button type="button" class="btn-customiz">Edit 
+                                <span><i class="fa fa-plus" aria-hidden="true"></i></span>
+                            </button>
+                            <button type="button" class="btn-cart" >Add to cart
+                                <span><i class="fa fa-cart-plus" aria-hidden="true"></i></span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-info-top">
+                            <h2 class="sm-title"> Pizza</h2>
+                            <div class="rating">
+                             <span><i class="fas fa-star"></i></span>  
+                             <span><i class="fas fa-star"></i></span> 
+                             <span><i class="fas fa-star"></i></span> 
+                             <span><i class="fas fa-star"></i></span> 
+                             <span> <i class="fas fa-star-half-alt"></i></span> 
+                           </div>
+                        </div>
+                        <h5 class="product-name">Pepproni Pizza</h5>
+                        <h5 class="product-price">Rs 1000</h5>
+                    </div>
+                    <div class="custominfo">
+                        <h4 class="sm-title">Customizable</h4>
+                    </div>
+                </div> -->
+                <!-- End -->
+                <!-- <div class="customizedproduct">
+                    <div class="product-content">
+                        <div class="product-img">
+                            <img src="{% static 'images/food-1.png' %}" alt="" class="newimg">
+                        </div>
+                        <div class="product-btns">
+                            <button type="button" class="btn-customiz">Edit 
+                                <span><i class="fa fa-plus" aria-hidden="true"></i></span>
+                            </button>
+                            <button type="button" class="btn-cart" >Add to cart
+                                <span><i class="fa fa-cart-plus" aria-hidden="true"></i></span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-info-top">
+                            <h2 class="sm-title"> Pizza</h2>
+                            <div class="rating">
+                             <span><i class="fas fa-star"></i></span>  
+                             <span><i class="fas fa-star"></i></span> 
+                             <span><i class="fas fa-star"></i></span> 
+                             <span><i class="fas fa-star"></i></span> 
+                             <span> <i class="fas fa-star-half-alt"></i></span> 
+                           </div>
+                        </div>
+                        <h5 class="product-name">Pepproni Pizza</h5>
+                        <h5 class="product-price">Rs 1000</h5>
+                    </div>
+                    <div class="custominfo">
+                        <h4 class="sm-title">Customizable</h4>
+                    </div>
+                </div> -->
+                <!-- END -->               
+            </div>
+            
+           
+                
+        </div>
+        
+
+
+        
+    </section>
+    <!-- <section class="products">
+        <div class="container">
+            <h3 class="lg-title">Our Customized items </h3>
+            <p class="text-light">Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                 Ullam est ab rem sapiente sit consequuntur!</p>
+            
+                 <div class="product-items">
+                    
+                     <div class="customizedproduct">
+                         <div class="product-content">
+                        <div class="product-img">
+                            <img src="./images/pizza.png" alt="" class="newimg">
+                        </div>
+                        <div class="product-btns">
+                            <button type="button" class="btn-customiz">Edit 
+                                <span><i class="fa fa-plus" aria-hidden="true"></i></span>
+                            </button>
+                            <button type="button" class="btn-cart" >Add to cart
+                                <span><i class="fa fa-cart-plus" aria-hidden="true"></i></span>
+                            </button>
+                        </div>
+                     </div>
+                    
+                     <div class="product-info">
+                         <div class="product-info-top">
+                             <h2 class="sm-title"> Pizza</h2>
+                             <div class="rating">
+                              <span><i class="fas fa-star"></i></span>  
+                              <span><i class="fas fa-star"></i></span> 
+                              <span><i class="fas fa-star"></i></span> 
+                              <span><i class="fas fa-star"></i></span> 
+                              <span> <i class="fas fa-star-half-alt"></i></span> 
+                            </div>
+                         </div>
+                         <h5 class="product-name">Pepproni Pizza</h5>
+                         <h5 class="product-price">Rs 1000</h5>
+                     </div>
+                     <div class="custominfo">
+                         <h4 class="sm-title">Customizable</h4>
+                     </div>
+                 </div>
+                </div>
+               
+             
+               
+        </div>
+        
+
+    </section> -->
+    <!-- WELCOME SECTION -->
+<!-- <section class="welcome" id="about">
+     <div class="image">
+        <img src="./images/building.jpg" alt="">
+    </div>
+    <div class="contentdetail">
+        
+        <h3 >Welcome To <span></span></h3>
+        <p >Lorem ipsum dolor sit amet consectetur adipisicing elit.
+        A deserunt adipisci doloremque, cupiditate ex voluptates culpa dolores perspiciatis earum commodi.</p>
+        <p class=>Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae sit, quisquam reiciendis expedita modi sapiente.</p>
+    
+        <div class="btnContainer">
+            <a href="" class="neonbtn"> Contact</a>
+         </div>
+        
+    </div> 
+  
+    
+
+</section> -->
+<section class="welcomee" id="aboutt">
+    <div class="imagee">
+       <img src="{% static 'images/building.jpg' %}" alt="">
+   </div>
+   <div class="contentt">
+       
+       
+       <h3 class="titlee">Welcome to <span></span></h3>
+       <p >Located in the heart of city, the Roof Top Hotel offer an outstanding venue with a beautiful ambience and professional staff. 
+           There are ample facilities for optimum comfort and a luxurious experience</p>
+        <div class="btncontainer">
+       <a href="" class="neonbtn"> Contact</a>
+    </div>
+       <div class="iconContainer">
+      
+     <div class="icons">
+         <img src="{% static 'images/serv-6.png'%}" alt="">
+         <h3>Fresh Food</h3>
+      </div>
+      
+      <div class="icons">
+         <img src="{% static 'images/serv-3.png'%}" alt="">
+         <h3>High-quality</h3>
+      </div>
+      <div class="icons">
+         <img src="{% static 'images/serv-4.png'%}" alt="">
+         <h3>Hospitable Staff</h3>
+      </div>
+       <div class="icons">
+        <img src="{% static 'images/ok.png'%}" alt="">
+        <h3>Totally Hygenic</h3>
+     </div> 
+    </div>
+   </div> 
+   
+
+</section>
+
+
+<!-- comboPackage -->
+<section class="comboPackage my-3 pb-2" id="combo">
+    <div class="contain text-center mt-3 py-3"  style="margin-right: auto; margin-left: auto; padding-left: 45px; padding-right: 45px;">
+        <h3>Our Combo <span>Packages</span>
+            </h3>
+        <hr >
+        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. A inventore nam perferendis aliquam eius assumenda!</p>
+    </div>
+    <!-- <button class="prebtn"><img src="./images/arrow.png" alt=""></button>
+    <button class="nextbtn"><img src="./images/arrow.png" alt=""></button> -->
+    <div class="product-container">
+        {% for i in comboPackage %}
+        <div class="product-card">
+            <div class="product-image">
+                <span class="discount-tag">10% off</span>
+                <img src="{{i.productImage.url}}" class="product-thumb" alt="">
+                <button data-product="{{i.id}}" data-action="add" class="card-btn add-btn update-cart">Add to cart</button>
+            </div>
+            <div class="product-infos">
+                <div class="product-name">{{i.productName}}</div>
+                <span class="prices">RS.{{i.actualPrice}}</span><span class="actualprices">RS.{{i.price}}</span>
+            </div>
+        </div>
+        {% endfor %}
+<!--        
+        <div class="product-card">
+            <div class="product-image">
+                <span class="discount-tag">10% off</span>
+                <img src="{% static 'images/combo1.jpg' %}" class="product-thumb" alt="">
+                <button class="card-btn">Add to cart</button>
+            </div>
+            <div class="product-infos">
+                <div class="product-name">Burger and Coke</div>
+                <span class="prices">Rs 450</span><span class="actualprices">Rs 500</span>
+            </div>
+        </div>
+        <div class="product-card">
+            <div class="product-image">
+                <span class="discount-tag">10% off</span>
+                <img src="{% static 'images/combo1.jpg' %}" class="product-thumb" alt="">
+                <button class="card-btn">Add to cart</button>
+            </div>
+            <div class="product-infos">
+                <div class="product-name">Burger and Coke</div>
+                <span class="prices">Rs 450</span><span class="actualprices">Rs 500</span>
+            </div>
+        </div>
+        
+        <div class="product-card">
+            <div class="product-image">
+                <span class="discount-tag">10% off</span>
+                <img src="{% static 'images/combo1.jpg' %}" class="product-thumb" alt="">
+                <button class="card-btn">Add to cart</button>
+            </div>
+            <div class="product-infos">
+                <div class="product-name">Burger and Coke</div>
+                <span class="prices">Rs 450</span><span class="actualprices">Rs 500</span>
+            </div>
+        </div> -->
+    </div>
+</section>
+
+
+<!-- Combo -->
+
+
+<!-- OurTeam -->
+<section class="team" id="team">
+    <h1 class="heading"> Meet <span>Our Team</span></h1>
+    <div class="swiper teamslider">
+        <div class="swiper-wrapper ">
+            {% for i in team %}
+            <div class="swiper-slide box">
+                <img src="{{i.teamProfile.url}}" alt="" >
+                <h3>{{i.name}}</h3>
+                <h4>{{i.post}}</h4>
+                <div class="stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                </div>
+                <p>{{i.detail}}</p>
+            </div>
+            {% endfor %}
+            <!-- <div class="swiper-slide box">
+                <img src="{% static 'images/7.jpg' %}" alt="" srcset="">
+                <h3>Mavin Diaz</h3>
+                <h4>Assistant Chef</h4>
+                <div class="stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                </div>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi, nostrum?</p>
+            </div>
+            <div class="swiper-slide box">
+                <img src="{% static 'images/4.jpg' %}" alt="" srcset="">
+                <h3>Sr.Neville</h3>
+                <h4>Accountant</h4>
+                <div class="stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                </div>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi, nostrum?</p>
+            </div>
+            
+            <div class="swiper-slide box">
+                <img src="{% static 'images/5.jpg' %}" alt="" srcset="">
+                <h3>Alisson Parker</h3>
+                <h4>Waiter</h4>
+                <div class="stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                </div>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi, nostrum?</p>
+            </div> -->
+        </div>
+    </div>
+
+</section>
+<!-- CustomerReview -->
+<section class="customerReview" id="review">
+    <h1 class="reviewcus">Our Valueable <span>Customers </span></h1>
+    <div class="reviews">
+        {% for i in customer %}
+        <div class="reviewwrap">
+            <div class="imgbox">
+                <img src="{{i.customerProfile.url}}" alt="">
+            </div>
+                <div class="bodyreview">
+                <h4>{{i.name}}</h4>
+              
+                <div class="stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                </div>
+            
+            <div class="detail">
+                <p>{{i.detail}}</p>
+            </div>
+        </div>
+           
+        </div>
+        {% endfor %}
+        <!-- <div class="reviewwrap">
+            <div class="imgbox">
+                <img src="{% static 'images/4.jpg' %}"alt="">
+            </div>
+                <div class="bodyreview">
+                <h4>Bren Dio</h4>
+              
+                <div class="stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                </div>
+            
+            <div class="detail">
+                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Praesentium rerum excepturi eius, fugit omnis vitae.</p>
+            </div>
+        </div>
+           
+        </div>
+        <div class="reviewwrap">
+            <div class="imgbox">
+                <img src="{% static 'images/5.jpg' %}"alt="">
+            </div>
+                <div class="bodyreview">
+                <h4>Kheira Hamraoui</h4>
+              
+                <div class="stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                
+            </div>
+            <div class="detail">
+                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Praesentium rerum excepturi eius, fugit omnis vitae.</p>
+            </div>
+        </div>
+           
+        </div> -->
+        <!-- <div class="reviewwrap">
+            <div class="imgbox">
+                <img src="./images/5.jpg" alt="">
+            </div>
+                <div class="bodyreview">
+                <h4>Kheira Hamraoui</h4>
+              
+                <div class="stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                </div>
+            </div>
+            <div class="detail">
+                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Praesentium rerum excepturi eius, fugit omnis vitae.</p>
+            </div>
+            -->
+        </div>
+ 
+    
+</section>
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends 'FoodApp/base.html' %}
+{% load static %}
+{% block reserveTable %}
+    <div class="blogheads">
+        <h1>Make Reservation</h1>
+        <p><a href="#"> Home >></a> <span>Reserve a table</span> </p>
+    </div>
+   
+<section class="bannerReserve">
+    <h2>Find your table for any occasion</h2>
+    <div class="card-container">
+        <div class="card-img">
+
+        </div>
+        <div class="cart-content">
+            <h3>Make Reservation</h3>
+            <form action="">
+                <div class="form-row">      
+                        
+                        <input type="date" id="booktable" name="book a table">
+                        <br>
+                    <select name="hours" id="">
+                        <option value="select-hours">Select Hour</option>
+                        <option value="10">1hr</option>
+                        <option value="10">2hr</option>
+                        <option value="10">3hr</option>
+                        <option value="10">4hr</option>
+                        <option value="10">5hr</option>
+                        <option value="10">6hr</option>
+                        <option value="10">Above 6hr</option>
+                    </select>
+                </div>
+                <div class="form-row">
+                    <input type="text" placeholder="Your Full Name">
+                    <input type="email" placeholder="Your email Address">
+                </div>
+                <div class="form-row">
+                    <!-- <div class="wrapper">
+                        <h4 class="titleicon">Number of person</h4>
+                        <ul class="dropdown">
+                            <li>1 person</li>
+                            <li>2 People</li>
+                           
+                        </ul>
+                        <input type="submit" value="Reserve" >
+                
+                    </div> -->
+                    <div class="box">
+                        <select class="people">
+                            <option value=""> <span class="fas fa-user"></span> 1 person</option>
+                            <option value="">2 People</option>
+                            <option value="">3 People</option>
+                            <option value="">4 People</option>
+                            <option value="">5 People</option>
+                            <option value="">Larger Party</option>
+                        </select>
+                    </div>
+                   
+                </div>
+                <input type="submit" value="Reserve" >
+            </form>
+        </div>
+    </div>
+
+</section>
+{% endblock %}
