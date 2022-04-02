@@ -17,8 +17,8 @@
             <div class="product-head">
                 <img src="{{i.localProductimage.url}}" alt="">
                 <ul class="icons">
-                    <span> <i class="fa fa-shopping-cart" aria-hidden="true"></i> </span>
-                    <button class="card-btn">Add to cart</button>
+                    <!-- <span> <i class="fa fa-shopping-cart" aria-hidden="true"></i> </span> -->
+                    
 
                   <a href="{% url 'FoodApp:productdetail' i.id %}"> <span><i class="fa fa-search"  aria-hidden="true"></i></span></a> 
                 </ul>
@@ -35,8 +35,11 @@
                     <span> <i class="fas fa-star-half-alt"></i></span> 
                 </div>
                 <h4 class="price">Rs.{{i.price}}</h4>
-                
+                <button data-product="{{i.id}}" data-action="add" class="btn btn-outline-success update-cart">Add to Cart
+                    <span style="color:black"><i class="fa fa-cart-plus" aria-hidden="true"></i></span>
+                </button>
             </div>
+           
         </div>
         {% endfor %}
         <!-- <div class="productsavailable">
@@ -116,7 +119,7 @@
 <div class="box-container">
     {% for i in specialProduct %}
     <div class="box">
-        <img src="{{i.specialProductimage.url}}" alt="" height="200px" width="300px">
+        <img src="{{i.localProductimage.url}}" alt="" height="200px" width="300px">
         <h3>{{i.name}}</h3>
         <div class="stars">
             <span><i class="fas fa-star"></i></span>  
@@ -127,7 +130,7 @@
         </div>
         <span>Rs{{i.price}}</span><br>
         <div class="btnContainer">
-            <button class="btn btn-outline-success">Add to Cart
+            <button data-product="{{i.id}}" data-action="add" class="btn btn-outline-success update-cart">Add to Cart
                 <span style="color:black"><i class="fa fa-cart-plus" aria-hidden="true"></i></span>
             </button>
             <!-- <a href="" class="neonbtn">Add to cart</a> -->

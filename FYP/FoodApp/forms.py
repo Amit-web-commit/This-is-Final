@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
-from .models import ReviewRating
+from .models import ReviewRating, ReserveTable
 from django.forms import ModelForm
 from django.forms import TextInput,EmailInput,PasswordInput
 # from .models import ReviewRating
@@ -61,9 +61,14 @@ class CreateUserForm(UserCreationForm):
 class ReviewForm(forms.ModelForm):
     class Meta:
         model = ReviewRating
-        fields = ['review','comment', 'rate']
+        fields = ['review','comment','rate']
 
 PRODUCT_QUANTITY_CHOICES = [(i, str(i)) for i in range(1,6)]
 class CartAddProductForm(forms.Form):
     quantity = forms.TypedChoiceField(choices=PRODUCT_QUANTITY_CHOICES, coerce =int)
     override = forms.BooleanField(required=False, initial=False, widget=forms.HiddenInput)
+
+class ReserveTableForm(forms.ModelForm):
+    class Meta:
+        model = ReserveTable
+        fields = ['tableNo', 'date', 'selecthour', 'name', 'email', 'person']

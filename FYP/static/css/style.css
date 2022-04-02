@@ -184,7 +184,7 @@ a.btn{
      border-radius: .5rem;
      text-align: center;
      margin: 0 .6em 0.2em 0;
-     right: -110%;
+     right: -100%;
      border-bottom: 3px solid gray;
     border-top: 3px solid gray;
     
@@ -1341,7 +1341,7 @@ margin-bottom: -70px;
     
 }
 .productsavailable{
-    height: 25rem;
+    height: 27rem;
     transition: all 50ms ease-in-out;
     border-radius: 1rem;
     box-shadow: 0 0.4rem 1.4rem rgba(0, 0, 0, 0.33);
@@ -2513,6 +2513,7 @@ form input[type=submit]:hover{
     color: #15f4ee;
     margin-left: 20px;
 }
+
 .box-top{
     display: flex;
     /* justify-content: space-between; */
@@ -2750,3 +2751,30 @@ label:hover ~ input:checked ~ label{
     margin: 10px 10px;
     width: 100%;
 } */
+.cart-item-count{
+    width: 25px;
+    height: 25px;
+    border-radius: 80%;
+    /* background-color: rgb(160, 158, 159); */
+    position: absolute;
+    top: 2px;
+    right: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: black;
+    overflow: hidden;
+}
+@media (max-width: 990px) {
+    .cart-item-count{
+        width: 25px;
+    height: 25px;
+    right: 40px;
+    }
+}
+ h5 .cart-item-count {
+    margin: 0px !important;
+}
+.hidden{
+    display: none;
+} 

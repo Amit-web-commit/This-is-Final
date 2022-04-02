@@ -1,12 +1,17 @@
 from django.shortcuts import render,redirect, get_object_or_404
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
+import json
 from django.contrib import messages
 from .models import *
-from .forms import CreateUserForm, ReviewForm, CartAddProductForm
+from .forms import CreateUserForm, ReviewForm, CartAddProductForm, ReserveTableForm
 from django.views.decorators.http import require_POST
 from .cart import Cart
+from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
+from django.db.models import Q
+from .utils import cookieCart
 # Create your views here.
 def signup(request): 
     form = CreateUserForm()
@@ -44,18 +49,46 @@ def loginPage(request):
             messages.info(request, "Username or Password is incorrect")
     context={}
     return render(request,'FoodApp/login.html',context)
+def logoutPage(request):
+    logout(request)
+    return redirect("FoodApp:loginPage")
 def home(request):
-    product = Product.objects.all()
+    if request.user.is_authenticated:
+        customer = request.user
+        order,created = Order.objects.get_or_create()
+        items = order.orderitem_set.all()
+    # if 'q' in request.GET:
+    #     q = request.GET['q']
+    #     data = LocalProduct.objects.filter(name__icontains=q)
+    # else:
+
+    product = LocalProduct.objects.filter(productType= "EditProduct")
     cart_product_form = CartAddProductForm()
-    comboPackage = ComboPackage.objects.all()
+    comboPackage =  LocalProduct.objects.filter(productType="ComboPackage")
     team = Team.objects.all()
     customer = CustomerProfile.objects.all()
     context = {'product':product, 'cart_product_form':cart_product_form,'comboPackage':comboPackage, 'team':team, 'customer': customer}
     return render(request, 'FoodApp/index.html', context )
 
 def product(request):
-    localProduct = LocalProduct.objects.all()
-    specialProduct = SpecialProduct.objects.all()
+    
+    if 'q' in request.GET:
+        q = request.GET['q']
+        # localProduct = LocalProduct.objects.filter(name__icontains=q)
+        # specialProduct = LocalProduct.objects.filter(name__icontains=q)
+        # multiple_q = Q(Q(name__icontains=q) | Q(name__icontains=q))
+        # localProduct = LocalProduct.objects.filter(multiple_q)
+
+        localProduct = LocalProduct.objects.filter(name__icontains=q)
+        specialProduct = LocalProduct.objects.filter(name__icontains=q)
+    else:
+        localProduct = LocalProduct.objects.filter(productType=1)
+        specialProduct = LocalProduct.objects.filter(productType="SpecialProduct")
+        specialProducts = LocalProduct.objects.filter(productType="SpecialProduct").order_by("id")
+    # p = Paginator(specialProducts,3)
+    # print("Pages:", p.num_pages)
+    # page_number = request.GET.get('page')
+    # product_list = Paginator.get_page(p,page_number)
     context = {'localProduct':localProduct, 'specialProduct':specialProduct}
     return render(request, 'FoodApp/products.html',context)
 
@@ -67,12 +100,51 @@ def productdetail(request, id):
     return render(request, 'FoodApp/productdetail.html', context)
 
 def reserveTable(request):
-    context = {}
-    return render(request, 'FoodApp/reservetable.html', context)
+    form = ReserveTableForm()
+    # if request.user.is_authenticated:
+    #     customer = request.user
+    #     order,created = Order.objects.get_or_create()
+    #     items = order.orderitem_set.all()
+    if request.method == 'POST':
+        
+        form  = ReserveTableForm(request.POST)
+        # if form.is_valid():
+        form = ReserveTable()
+        tableNo =request.POST.get('tableNo') 
+        date = request.POST.get('date') 
+        hours = request.POST.get('selecthour') 
+        name = request.POST.get('name') 
+        email =request.POST.get('email')
+        person =request.POST.get('person') 
+        current_user = request.user
+    
+        form = ReserveTable( tableNo=tableNo, date=date, selecthour=hours, name=name, email=email, person=person)
+        form.save()
+        
+        messages.success(request, "Thanks,Your Requested table is booked.")
 
+    context = {'form':form}
+    return render(request, 'FoodApp/reservetable.html', context)
+@login_required(login_url='FoodApp:loginPage')
 def customizeMenu(request):
-    context = {}
-    return render(request, 'FoodApp/customizemenu.html', context)
+    if request.method == "POST":
+        
+        customizemenu = CustomizeMenu()
+        yourName = request.POST.get('yourName')
+        yourEmail = request.POST.get('yourEmail')
+        role = request.POST.get('role')
+        yourCuisine = request.POST.get('yourCuisine')
+        Ingredients1 = request.POST.get('Ingredients1')
+        Ingredients2 = request.POST.get('Ingredients2')
+        Ingredients3 = request.POST.get('Ingredients3')
+        recipedetail = request.POST.get('recipedetail')
+        customizemenu  = CustomizeMenu(customerName=yourName, customerEmail=yourEmail, cusineType=role, cusineName=yourCuisine, 
+        ingridents1=Ingredients1, ingridents2=Ingredients2, ingridents3=Ingredients3, recipeDetail=recipedetail)
+        customizemenu.save()
+        messages.success(request, "Thanks,The Suggessted Cusine is recorded.")
+        return redirect('FoodApp:customizemenu')
+    
+    return render(request, 'FoodApp/customizemenu.html')
 
 
 def editIngredients(request):
@@ -80,6 +152,10 @@ def editIngredients(request):
     return render(request, 'FoodApp/edit.html', context)
 
 def contact(request):
+    if request.user.is_authenticated:
+        customer = request.user
+        order,created = Order.objects.get_or_create()
+        items = order.orderitem_set.all()
     if request.method == "POST":
         contact = Contact()
         name = request.POST.get('name')
@@ -95,13 +171,21 @@ def contact(request):
     return render(request, 'FoodApp/contact.html')
 
 def carttotal(request):
-    # if request.user.is_authenticated:
-    #     customer = request.user.customer
-    #     items = order.orderitem_set.all()
-    # else:
-    #     items = []
+    if request.user.is_authenticated:
+        customer = request.user
+        order,created = Order.objects.get_or_create()
+        items = order.orderitem_set.all()
+        cartItems = order.get_itemtotal
 
-    context={}
+    else:
+        cookieData = cookieCart(request)
+        cartItems = cookieData['cartItems']
+        order = cookieData['order']
+        items = cookieData['items']
+ 
+
+    context={'items':items, 'order':order, 'cartItems':cartItems}
+   
     return render(request,'FoodApp/carttotal.html', context)
 
 def submit_review(request, id):
@@ -121,6 +205,52 @@ def submit_review(request, id):
             return HttpResponseRedirect(url)
     return HttpResponseRedirect(url)
 
+def updateItem(request):
+    data = json.loads(request.body)
+    productId = data['productId']
+    action = data['action']
+    print('Action:', action)
+    print('productId:', productId)
+    customer = request.user
+    localProduct = LocalProduct.objects.get(id=productId)
+    
+    order,created = Order.objects.get_or_create()
+    orderItem, created = OrderItem.objects.get_or_create(order=order, localProduct=localProduct)
+
+    if action == "add":
+        orderItem.quantity +=1
+        orderItem.save()
+    
+
+    
+    return JsonResponse("Item is added", safe=False)
+
+def updateQuantity(request):
+    data = json.loads(request.body)
+    quantityFieldValue = data['qfv']
+    quantityFieldProducts = data['qfp']
+    product = OrderItem.objects.filter(localProduct__name = quantityFieldProducts).last()
+    product.quantity = quantityFieldValue
+    product.save()
+    return JsonResponse("Updated", safe=False)
+
+def payment(request):
+    data = json.loads(request.body)
+    if request.user.is_authenticated:
+        customer = request.user
+        order,created = Order.objects.get_or_create()
+        total = float(data['cart_total'])
+
+        if total ==order.convertDollar:
+            
+            order.save()
+    
+            order = {'get_cart_total':0, 'get_itemtotal':0, 'get_local_total':0}
+    
+            
+    return JsonResponse("It is Working", safe=False)
+    # context= {}
+    # return render(request,'FoodApp/payment.html', context)
 
 # def submit_review(request, id):
 #     url = request.META.get("HTTP_REFERER")
@@ -188,19 +318,21 @@ def submit_review(request, id):
     #     else:
     #         form = ReviewForm()
     #     return HttpResponse('Please rate the product') 
-@require_POST
-def cart_add(request, id):
+# @require_POST
+# def cart_add(request, id):
     
-    cart = Cart(request)
-    product = get_object_or_404(Product, id = id)
-    form = CartAddProductForm(request.POST)
-    if form.is_valid():
-        cd = form.cleaned_data
-        cart.add(product = product, quantity=cd['quantity'], override_quantity=cd['override'])
-    return redirect('FoodApp:carttotal')
+#     cart = Cart(request)
+#     product = get_object_or_404(Product, id = id)
+#     form = CartAddProductForm(request.POST)
+#     if form.is_valid():
+#         cd = form.cleaned_data
+#         cart.add(product = product, quantity=cd['quantity'], override_quantity=cd['override'])
+#     return redirect('FoodApp:carttotal')
 
-def cart_remove(request, id):
-    cart = Cart(request)
-    product = get_object_or_404(Product, id=id)
-    cart.remove(product)
-    return redirect('FoodApp:carttotal')
+# def cart_remove(request, id):
+#     cart = Cart(request)
+#     product = get_object_or_404(Product, id=id)
+#     cart.remove(product)
+#     return redirect('FoodApp:carttotal')
+
+

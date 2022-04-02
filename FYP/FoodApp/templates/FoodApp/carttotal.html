@@ -42,7 +42,7 @@
                         <a href=""><i class="fa fa-times" aria-hidden="true"></i></a>
                       
                     </td>
-                </tr> -->
+                </tr>  -->
                 
                 <!-- <tr>
                     <td>
@@ -66,28 +66,87 @@
                         <a href=""><i class="fa fa-times" aria-hidden="true"></i></a>
                     </td>
                 </tr>  -->
-                {% for item in cart %}
+                 <!-- {% for item in items %}
                 
                
                 <tr>
                     <td>
-                        <img src="{{product.image.url}}" alt="">
+                        <img src="{{item.product.productImage.url}}" alt="">
                     </td>
-                    <td>{{product.name}}</td>
-                    <td>Rs.{{item.price}}</td>
-                    <td>{{item.quantity}}</td>
+                    <td>{{item.product.productName}}</td>
+                    <td>Rs.{{item.product.price}}</td>
+                    <td> <input class="numlength" type="number" id="num" value="1" ></td>
                     <td>
-                        Rs.{{item.total_price}}
+                        Rs.{{item.get_total}}
                     </td>
                     <td>
-                        <form action="{% url 'FoodApp:cart_remove' product.id %}" method="post">
-                            <input type="submit" value="Remove">
-                            {% csrf_token %}
-                        </form>
+                        <a href=""><i class="fa fa-times" aria-hidden="true"></i></a>
+                     
                     </td>
                 </tr>
            
-                {% endfor %}
+                {% endfor %}  -->
+                {% for item in items %}
+                
+               
+                <tr>
+                    <td>
+                        <img src="{{item.localProduct.localProductimage.url}}" alt="">
+                    </td>
+                    <td>{{item.localProduct.name}}</td>
+                    <td>Rs.{{item.localProduct.price}}</td>
+                    <td> <input class="numlength" type="number" id="num" value="{{item.quantity}}" ></td>
+                    <td>
+                        Rs.{{item.get_local_total}}
+                    </td>
+                    <td>
+                        <a href=""><i class="fa fa-times remove" aria-hidden="true"></i></a>
+                        <!-- <form action="" method="post">
+                            <input type="submit" value="Remove">
+                            {% csrf_token %}
+                        </form> -->
+                    </td>
+                </tr>
+           
+                {% endfor %} 
+                <!-- {% for item in items %}
+                
+               
+                <tr>
+                    <td>
+                        <img src="{{item.specialProduct.specialProductimage.url}}" alt="">
+                    </td>
+                    <td>{{item.specialProduct.name}}</td>
+                    <td>Rs.{{item.specialProduct.price}}</td>
+                    <td> <input class="numlength" type="number" id="num" value="1" ></td>
+                    <td>
+                        Rs.{{item.get_special_total}}
+                    </td>
+                    <td>
+                        <a href=""><i class="fa fa-times" aria-hidden="true"></i></a>
+                   
+                    </td>
+                </tr>
+           
+                {% endfor %}  -->
+                <!-- {% for item in items %}
+                <tr>
+                    <td>
+                        <img src="{{item.comboPackage.productImage.url}}" alt="">
+                    </td>
+                    <td>{{item.comboPackage.productName}}</td>
+                    <td>Rs.{{item.comboPackage.price}}</td>
+                    <td> <input class="numlength" type="number" id="num" value="1" ></td>
+                    <td>
+                        Rs.{{item.get_combo_total}}
+                    </td>
+                    <td>
+                        <a href=""><i class="fa fa-times" aria-hidden="true"></i></a>
+                       
+                    </td>
+                </tr>
+           
+                {% endfor %}  -->
             </tbody>
         </table>
   <!-- <input type="submit" value="Remove"> -->
@@ -97,34 +156,45 @@
         
             <div class="total col-lg-6 col-md-6 col-12 container"> 
                 <table width="100%">
+                   
                     <thead>
+                        
                         <tr>
                             <td><h5 class="totaltopic">Cart Totals</h5></td>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
+                            
                             <td class="mt-5">
                                
                                     <h6>Sub Total</h6>
                                     <h6>Vat (5%)</h6>
-                                    <hr>
+                                    
                                     <h6 class="high">Grant Total</h6>
+                                    <h6 class="high" style="font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">In USD</h6>
                             </td>
+                          
                             <td>
-                              <h6> {{cart.get_total_price}}</h6>
-                              <h6>Rs 200</h6>
-                              <hr>
-                              <h6 class="high">Rs 1200</h6>
+                              <h6>Rs.{{order.get_cart_total}}</h6>
+                              <h6>Rs.{{order.vat}} </h6>
+                              
+                              
+                              <h6 class="high"> Rs.{{order.grant_total}}</h6>
+                              <h6 class="high" style="font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"> ${{order.convertDollar}}</h6>
+                              
+                             
                             </td>
                             
                         </tr>
                         
                         
                     </tbody>
+                   
                 </table>
                 <div class="totalbtn">
-                    <a href="payment2.html" type="submit">Proceed to Checkout</a>
+                    <div id="paypal-button-container"></div>
+                    <!-- <a href="{% url 'FoodApp:payment' %}" type="submit">Proceed to Checkout</a>/ -->
                 </div>
             
 
@@ -132,4 +202,75 @@
             
     </div>
 </div>
+<script src="https://www.paypal.com/sdk/js?client-id=ATV7G4uVaAyFJ5b16GxQfp5VT_zG71sPujBRHxgJKvay5aP7e3Ek6G1wIjN6NKEM_Rh-9OP-0UvL3DOx&currency=USD"></script>
+
+<script>
+    var total = '{{order.convertDollar}}'
+    // Render the PayPal button into #paypal-button-container
+    paypal.Buttons({
+        style: {
+ layout: 'horizontal',
+ fundingicons: 'true',
+},
+funding: {
+ allowed: [ paypal.FUNDING.CARD ],
+ disallowed: [ paypal.FUNDING.CREDIT ]
+},
+        // Set up the transaction
+        createOrder: function(data, actions) {
+            return actions.order.create({
+                purchase_units: [{
+                    amount: {
+                        // value: '88.44'
+                        value: parseFloat(total).toFixed(2)
+                    }
+                }]
+            });
+        },
+
+        // Finalize the transaction
+        onApprove: function(data, actions) {
+            return actions.order.capture().then(function(orderData) {
+                // Successful capture! For demo purposes:
+                console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+                var transaction = orderData.purchase_units[0].payments.captures[0];
+                alert('Transaction '+ transaction.status + ': ' + transaction.id + '\n\nSee console for all available details');
+                makePayment()
+                // Replace the above to show a success message within this page, e.g.
+                // const element = document.getElementById('paypal-button-container');
+                // element.innerHTML = '';
+                // element.innerHTML = '<h3>Thank you for your payment!</h3>';
+                // Or go to another URL:  actions.redirect('thank_you.html');
+            });
+        }
+
+
+    }).render('#paypal-button-container');
+</script>
+<script>
+    function makePayment(){
+        const data = { cart_total: total };
+        let url = "/payment"
+fetch(url, {
+  method: 'POST', // or 'PUT'
+  headers: {
+    'Content-Type': 'application/json',
+    'X-CSRFToken': csrftoken
+  },
+  body: JSON.stringify(data),
+})
+.then(response => response.json())
+.then(data => {
+  console.log('Success:', data);
+  
+  alert("Payment made Succesfully..")
+//   order = {'get_cart_total':0, 'get_itemtotal':0, 'get_local_total':0}
+//   window.location.href="{% url 'FoodApp:home'%}"
+})
+.catch((error) => {
+  console.log('Error:', error);
+});
+    }
+    
+</script>
 {% endblock %}

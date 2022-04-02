@@ -1,0 +1,62 @@
+
+{% extends 'FoodApp/base.html' %}
+{% load static %}
+{% block payment %}
+    <div class="blogheads">
+        <h1>Checkout</h1>
+        <p><a href="#"> Home >></a> <span>Checkout</span> </p>
+    </div>
+    <div class="wrapper "style="background:gray">
+   <div class="containn">
+       <div class="paytitle">
+           <h2>Payment Form</h2>
+       </div>
+       <hr style="color: rgb(18, 27, 27);">
+      <img src="{% static 'images/stripe.png'%}" alt="">
+      <img src="{% static 'images/khalti.png'%}" alt="">
+       <div class="inputForm">
+        
+           <div class="sec1">
+               <div class="items">
+                   <label class="label" for="">Card holder:</label>
+                   <input type="text" class="input" name="name" placeholder="Name in card">
+               </div>
+           </div>
+           
+           <div class="sec2">
+            <div class="items">
+                <label class="label" for="">Card Number:</label>
+                <input type="text" class="input" name="name" placeholder="1111 2222 3333 4444" data-mask="0000 - 0000 - 0000 - 0000">
+            </div>
+        </div>
+        <div class="sec3">
+            <div class="items">
+                <label class="label" for="">Expire Date: </label>
+                <input type="date" class="input" name="Expire Date" id="Expire Date">
+            </div>
+            <div class="items">
+                <div class="cvc">
+                    <label for="" class="label">CVC code: </label>
+                    
+                </div>
+                <input type="password" class="input" name="cvv" placeholder="0000" id="cvv" maxlength="4" size="4">
+            </div>
+        </div>
+        <div class="sec3">
+            <div class="items">
+                <label class="label" for="">Expire Date: </label>
+                <input type="date" class="input" name="Expire Date" id="Expire Date">
+            </div>
+            <div class="items">
+                <div class="cvc">
+                    <label for="" class="label">CVC code: </label>
+                    
+                </div>
+                <input type="password" class="input" name="cvv" placeholder="0000" id="cvv" maxlength="4" size="4">
+            </div>
+        </div>
+       </div>
+       <div class="paybtn">Proceed to pay</div>
+    </div>
+   </div>
+   {% endblock %}

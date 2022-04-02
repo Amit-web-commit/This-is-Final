@@ -4,6 +4,7 @@ from .import views
 urlpatterns = [
     path('', views.home, name='home'),
     path('login', views.loginPage, name='loginPage'),
+    path('logout', views.logoutPage, name='logout'),
     path('signup', views.signup, name='signup'),
     path('product', views.product, name='product'),
     path('product/<int:id>', views.productdetail, name='productdetail'),
@@ -14,7 +15,9 @@ urlpatterns = [
     path('edit', views.editIngredients, name='editIngredients'),
     # path('submit_review', views.submitReview, name='submitReview')
     path('submitReview/<int:id>', views.submit_review, name='submit_review'),
-    path('add/<int:id>', views.cart_add, name='cart_add'),
-    path('remove/<int:id>', views.cart_remove, name='cart_remove')
-    
+    # path('add/<int:id>', views.cart_add, name='cart_add'),
+    path('updateItem', views.updateItem, name="updateItem"),
+    path('updateQuantity', views.updateQuantity, name="updateQuantity"),
+    path('payment', views.payment, name="payment")
+    # path('remove/<int:id>', views.cart_remove, name='cart_remove')
 ]

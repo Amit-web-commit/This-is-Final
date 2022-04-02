@@ -4,8 +4,82 @@ for (var i=0; i<updateBtns.length; i++){
     updateBtns[i].addEventListener('click', function(){
         var productId = this.dataset.product
         var action = this.dataset.action
+        
+        
         console.log('ProductID: ', productId, 'action:', action)
+        console.log("User:",user)
+        if (user === "AnonymousUser"){
+            addCookieItem(productId, action)
+        }
+        else{
+            updateUserOrder(productId, action)
+        }
 
-        console.log('USER: ',user)
     }) 
+}
+function addCookieItem(productId, action){
+    console.log("Not Logged in...")
+    if (action =='add'){
+        if(cart [productId] == undefined){
+        cart[productId] = {'quantity':1}
+        }
+        else{
+            cart[productId] ['quantity'] += 1
+
+        }
+    }
+    if(action == 'remove'){
+        cart[productId]['quantity'] -= 1
+        if(cart[productId]['quantity'] <=0 ){
+            console.log("Remove Item")
+            delete cart[productId]
+        }
+
+    }
+    console.log('Cart:', cart)
+    document.cookie = "Cart=" + JSON.stringify(cart)+ ";domain=;path=/"
+    // location.reload()
+}
+function updateUserOrder(productId, action){
+    console.log("sending data")
+
+    var url = "/updateItem"
+    fetch(url,{
+        method:'POST',
+        headers:{
+            'Content-Type':'application/json',
+            
+            'X-CSRFToken': csrftoken
+        },
+        body:JSON.stringify({'productId': productId, 'action':action})
+    })
+    .then((response) =>{
+        return response.json()
+    })
+    .then((data) =>{
+        console.log('data:', data)
+        
+    })
+    
+}
+let quantityField = document.getElementsByClassName('numlength')
+for(let i=0; i<quantityField.length; i++){
+    quantityField[i].addEventListener('change', function(){
+        let quantityFieldValue = quantityField[i].value
+        let quantityFieldProducts = quantityField[i].parentElement.parentElement.children[1].innerText
+        location.reload()
+        let url = "/updateQuantity"
+        fetch(url,{
+            method:'POST',
+            headers:{
+                'Content-Type':'application/json',
+                
+                'X-CSRFToken': csrftoken
+            },
+            body: JSON.stringify({"qfv": quantityFieldValue, "qfp":quantityFieldProducts})
+
+    })
+    .then(response => response.json())
+    .then(data => console.log(data))
+})
 }

@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'FoodApp',
-    'allauth',
+    'allauth', 
+    'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
 ]

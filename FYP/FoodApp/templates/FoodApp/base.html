@@ -18,8 +18,41 @@
   rel="stylesheet"
   href="https://unpkg.com/swiper@7/swiper-bundle.min.css"
 />
-<script type="text/jaavscript">
-var user = {{request.user}}
+<script type="text/javascript">
+    var user = '{{request.user}}'
+    function getToken(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+const csrftoken = getToken('csrftoken');
+function getCookie(name){
+    var cookieArr = document.cookie.split(";");
+    for(var i = 0; i< cookieArr.length; i++){
+        var cookiePair = cookieArr[i].split("=");
+        if(name == cookiePair[0].trim()){
+            return decodeURIComponent(cookiePair[1]);
+        }
+    }
+    return null;
+}
+var cart = JSON.parse(getCookie('Cart'))
+if(cart == undefined){
+    cart = {}
+    console.log("Cart was Craeted")
+    document.cookie = "Cart=" + JSON.stringify(cart) + ";domain=;path=/"
+}
+console.log('Cart:', cart)
 </script>
 </head>
 <body>
@@ -40,23 +73,35 @@ var user = {{request.user}}
             <div class="fa fa-bars" id="menu"></div>
             <div class="fas fa-search" id="search"></div>
             <a href="{% url 'FoodApp:carttotal' %}">
-            <div class="fas fa-shopping-cart" id="shopping" ></div></a>
+            <div class="fas fa-shopping-cart" id="shopping" ><h5 class="cart-item-count"><strong>{{cartItems}}</strong></h5></div></a>
             <div class="fas fa-user" id="user"></div>
         </div>
         <form action="" class="formSearch">
-            <input type="search" id="searchitem" placeholder="Enter Food name..">
-            <label for="searchitem" class="fas fa-search" ></label>
+            <input type="search" name="q" id="searchitem" placeholder="Enter Food name..">
+            <!-- <label for="searchitem" class="fas fa-search" ></label> -->
         </form>
         <form action="" class="loginForm">
-            <h3>Login</h3>
+            <h3>Account</h3>
+            <div class="icons">
+                <img src="{% static 'images/user.jpg'%}" style="height: 100px; width: 100px;" alt="">
+                
+             </div>
+            <!-- <div class="fas fa-user" id="user"></div> -->
+            <!-- <input type="text" class="name"  placeholder="Username">
             
-            <input type="text" class="name"  placeholder="Username">
-            
-            <input type="password" class="name" placeholder="password">
-            <a href="" class="btn" >Login</a>
-            <a href="" class="btn mt-2" >Logout</a>
+            <input type="password" class="name" placeholder="password"> -->
+            {% if user.is_authenticated %}
+            <h5>Hello,
+            {{request.user}}</h5>
+            <a href="{% url 'FoodApp:logout' %}" class="btn mt-2" >Logout</a>
+
+            {% else %}
+            <h5>Hello,
+                {{request.user}}</h5>
             <a href="" class="recreate">Forget Account</a>
+            <a href="{% url 'FoodApp:logout' %}" class="btn" >Login</a>
             <a href="{% url 'FoodApp:signup' %}" class="recreate">Create New Acount</a>
+            {% endif %}
            </form>
        
 
@@ -91,6 +136,9 @@ var user = {{request.user}}
     {% endblock %}
 
     {% block carttotal %}
+    {% endblock %}
+
+    {% block payment %}
     {% endblock %}
 <section class="footer">
     <div class="foot">
@@ -158,6 +206,6 @@ var user = {{request.user}}
      <!-- bootstrapJS -->
      <script src="{% static 'js/cart.js'%}"></script>
     <script src="{% static 'js/script.js'%}"></script>
-    <script src="{% static 'js/home.js' %}"></script>
+   
 </body>
 </html>

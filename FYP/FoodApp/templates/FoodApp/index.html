@@ -11,8 +11,8 @@
                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
                          Ratione culpa vitae labore, cum esse optio et itaque nihil harum temporibus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex, obcaecati. Placeat tempore nam minus ab corporis explicabo debitis quo dignissimos? lorem</p> 
                             
-                         <div class="mt-4">
-                             <button class="fas fa-shopping-cart btn btn-success"> Go to Products</button>
+                         <div class="mt-4"><a href="{% url 'FoodApp:product' %}">
+                             <button class="fas fa-shopping-cart btn btn-success"> Go to Products</button></a>
                          </div>
 
                     </div>
@@ -35,7 +35,7 @@
                 <div class="customizedproduct">
                     <div class="product-content">
                         <div class="product-img">
-                            <img src="{{i.productImage.url}}" alt="" class="newimg">
+                            <img src="{{i.localProductimage.url}}" alt="" class="newimg">
                         </div>
                         <div class="product-btns">
                             <a href="{% url 'FoodApp:editIngredients' %}">
@@ -43,16 +43,15 @@
                                 <span><i class="fa fa-plus" aria-hidden="true"></i></span>
                             </button>
                         </a>
-                            <form action="{% url 'FoodApp:cart_add' i.id%}" method="post">
-                                {% csrf_token%}
+                            
                             <button data-product="{{i.id}}" data-action="add" type="button" class="btn-cart add-btn update-cart" >Add to cart
                                 <span><i class="fa fa-cart-plus" aria-hidden="true"></i></span>
-                            </button></form>
+                            </button>
                         </div>
                     </div>
                     <div class="product-info">
                         <div class="product-info-top">
-                            <h2 class="sm-title"> {{i.productName}}</h2>
+                            <h2 class="sm-title">{{i.name}}</h2>
                             <div class="rating">
                              <span><i class="fas fa-star"></i></span>  
                              <span><i class="fas fa-star"></i></span> 
@@ -61,7 +60,7 @@
                              <span> <i class="fas fa-star-half-alt"></i></span> 
                            </div>
                         </div>
-                        <h5 class="product-name">{{i.productDetail}}</h5>
+                        <h5 class="product-name">{{i.Detail}}</h5>
                         <h5 class="product-price">Rs.{{i.price}}</h5>
                     </div>
                     <div class="custominfo">
@@ -227,7 +226,7 @@
        <p >Located in the heart of city, the Roof Top Hotel offer an outstanding venue with a beautiful ambience and professional staff. 
            There are ample facilities for optimum comfort and a luxurious experience</p>
         <div class="btncontainer">
-       <a href="" class="neonbtn"> Contact</a>
+       <a href="{% url 'FoodApp:contact' %}" class="neonbtn"> Contact</a>
     </div>
        <div class="iconContainer">
       
@@ -270,11 +269,11 @@
         <div class="product-card">
             <div class="product-image">
                 <span class="discount-tag">10% off</span>
-                <img src="{{i.productImage.url}}" class="product-thumb" alt="">
+                <img src="{{i.localProductimage.url}}" class="product-thumb" alt="">
                 <button data-product="{{i.id}}" data-action="add" class="card-btn add-btn update-cart">Add to cart</button>
             </div>
             <div class="product-infos">
-                <div class="product-name">{{i.productName}}</div>
+                <div class="product-name">{{i.name}}</div>
                 <span class="prices">RS.{{i.actualPrice}}</span><span class="actualprices">RS.{{i.price}}</span>
             </div>
         </div>
